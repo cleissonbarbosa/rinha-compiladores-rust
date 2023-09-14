@@ -14,4 +14,5 @@ pub enum Val {
         params: Vec<Var>,
         env: HashMap<String, Val>,
     },
+    Tuple((Box<Val>, Box<Val>)),
 }

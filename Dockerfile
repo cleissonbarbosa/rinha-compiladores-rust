@@ -19,4 +19,9 @@ WORKDIR /agent
 COPY --from=build /agent/target/release/main /agent/rinha
 COPY --from=build /agent/examples /agent/examples
 
-ENTRYPOINT ["/agent/rinha", "./examples/fib.rinha"]
+RUN echo "#!/bin/sh" >> /agent/run.sh
+RUN echo "/agent/rinha ./examples/fib.rinha" >> /agent/run.sh
+RUN echo "/agent/rinha ./examples/combination.rinha" >> /agent/run.sh
+RUN echo "/agent/rinha ./examples/sum.rinha" >> /agent/run.sh
+
+ENTRYPOINT ["/bin/bash", "/agent/run.sh"]

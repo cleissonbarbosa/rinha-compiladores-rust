@@ -5,6 +5,22 @@ use super::eval_binary::eval_bin;
 use super::eval_call::eval_call;
 use super::val::Val;
 
+/// Evaluate a term and return a value
+/// ```rust
+/// use rinha_compiladores::core::eval;
+/// use rinha::ast::Term;
+/// use std::collections::HashMap;
+///
+/// let result = eval(
+///     Term::Int(rinha::ast::Int {
+///         value: 1,
+///         ..Default::default()
+///     }),
+///     &mut HashMap::new(),
+/// ).expect("error on evaluation");
+///
+/// assert_eq!(format!("{:?}", result), format!("{:?}", rinha_compiladores::val::Val::Int(1)));
+///
 pub fn eval(term: Term, scope: &mut HashMap<String, Val>) -> Result<Val, Error> {
     match term {
         Term::Int(ref number) => {
@@ -64,7 +80,8 @@ pub fn eval(term: Term, scope: &mut HashMap<String, Val>) -> Result<Val, Error> 
             let first = eval(*t.first, scope).unwrap();
             let second = eval(*t.second, scope).unwrap();
 
-            Ok(Val::Str(format!("({:?}, {:?})", first, second)))
+            //Ok(Val::Str(format!("({:?}, {:?})", first, second)))
+            Ok(Val::Tuple((Box::new(first), Box::new(second))))
         }
     }
 }
