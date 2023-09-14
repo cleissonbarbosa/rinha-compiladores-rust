@@ -6,6 +6,8 @@
 
 ---
 
+[![Rust](https://github.com/cleissonbarbosa/rinha-compiladores-rust/actions/workflows/rust.yml/badge.svg)](https://github.com/cleissonbarbosa/rinha-compiladores-rust/actions/workflows/rust.yml)
+
 Simple interpreter for the "rinha de compiladores" challenge
 
 ⚠️ **Notice**
