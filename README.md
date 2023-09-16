@@ -35,3 +35,5 @@ cargo run --bin repl
 ---
 
 [Challenge Repo](https://github.com/aripiprazole/rinha-de-compiler)
+
+[LICENSE](LICENSE)
