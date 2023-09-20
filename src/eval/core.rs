@@ -35,6 +35,8 @@ pub fn eval(term: Term, scope: &mut HashMap<String, Val>) -> Result<Val, Error> 
                 Ok(Val::Int(n)) => print!("{n}"),
                 Ok(Val::Bool(b)) => print!("{b}"),
                 Ok(Val::Str(s)) => print!("{s}"),
+                Ok(Val::Tuple(t)) => print!("({:?}, {:?})", t.0, t.1),
+                Ok(Val::Closure { .. }) => print!("<#closure>"),
                 _ => return Err(Error::new(std::io::ErrorKind::Other, "tipo inválido")),
             };
             Ok(Val::Void)
@@ -70,10 +72,12 @@ pub fn eval(term: Term, scope: &mut HashMap<String, Val>) -> Result<Val, Error> 
         Term::Error(e) => Err(Error::new(std::io::ErrorKind::Other, e.message)),
         Term::First(f) => match eval(*f.value, scope) {
             Ok(Val::Str(s)) => Ok(Val::Str(s.chars().next().unwrap().to_string())),
+            Ok(Val::Tuple(t)) => Ok(*t.0),
             _ => Err(Error::new(std::io::ErrorKind::Other, "tipo inválido")),
         },
         Term::Second(s) => match eval(*s.value, scope) {
             Ok(Val::Str(s)) => Ok(Val::Str(s.chars().nth(1).unwrap().to_string())),
+            Ok(Val::Tuple(t)) => Ok(*t.1),
             _ => Err(Error::new(std::io::ErrorKind::Other, "tipo inválido")),
         },
         Term::Tuple(t) => {

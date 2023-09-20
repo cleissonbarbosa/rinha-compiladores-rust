@@ -23,12 +23,12 @@ Simple interpreter for the "rinha de compiladores" challenge
 ### Run project
 
 ```bash
-cargo run --bin main ./examples/fib.rinha
+cargo run --release --bin main ./examples/fib.rinha
 ```
 
 ### Run REPL
 ```bash
-cargo run --bin repl
+cargo run --release --bin repl
 ```
 ![rinha_repl](https://github.com/cleissonbarbosa/rinha-compiladores-rust/assets/32576001/d07d9c36-2df0-4b55-ac4f-1eb768d043a1)
 
