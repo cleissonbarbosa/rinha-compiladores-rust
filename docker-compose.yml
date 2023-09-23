@@ -4,4 +4,4 @@ services:
   rinha:
     build: .
     volumes:
-      - ./examples/source.rinha.json:/var/rinha/source.rinha.json
+      - ./examples/source.rinha:/var/rinha/source.rinha
