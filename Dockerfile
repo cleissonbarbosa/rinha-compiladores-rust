@@ -16,7 +16,6 @@ FROM debian:bullseye-slim as agent
 WORKDIR /agent
 
 COPY --from=build /agent/target/release/main /agent/rinha
-COPY --from=build /agent/examples /agent/examples
 
 RUN echo "#!/bin/sh" >> /agent/run.sh
 RUN echo "/agent/rinha /var/rinha/source.rinha" >> /agent/run.sh
