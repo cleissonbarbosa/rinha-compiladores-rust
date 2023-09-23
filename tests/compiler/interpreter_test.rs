@@ -2,7 +2,7 @@ use rinha_compiladores::interpreter::interpreter;
 
 #[test]
 fn interpreter_test() {
-    let source = std::fs::read_to_string("examples/fib.rinha").expect("read error");
+    let source = std::fs::read_to_string("examples/source.rinha").expect("read error");
     let result = interpreter(&source);
     assert!(result.is_ok());
 
