@@ -39,7 +39,10 @@ jobs:
     - name: Run tests
       run: cargo test --verbose
 
-    - name: Build and run docker image
+    - name: Build
       run: |
-        docker build -t rinha .
-        docker run rinha
+        docker compose up -d --build --remove-orphans
+
+    - name: View Results
+      run: |
+        docker-compose logs -f

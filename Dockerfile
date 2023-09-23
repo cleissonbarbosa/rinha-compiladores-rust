@@ -6,7 +6,6 @@ ARG CARGO_FLAGS="--release"
 COPY src src
 COPY Cargo.toml Cargo.toml
 COPY Cargo.lock Cargo.lock
-COPY examples examples
 
 # To improve performance and prevent the entire registry from being downloaded
 # see https://blog.rust-lang.org/inside-rust/2023/01/30/cargo-sparse-protocol.html
@@ -20,8 +19,6 @@ COPY --from=build /agent/target/release/main /agent/rinha
 COPY --from=build /agent/examples /agent/examples
 
 RUN echo "#!/bin/sh" >> /agent/run.sh
-RUN echo "/agent/rinha ./examples/fib.rinha" >> /agent/run.sh
-RUN echo "/agent/rinha ./examples/combination.rinha" >> /agent/run.sh
-RUN echo "/agent/rinha ./examples/sum.rinha" >> /agent/run.sh
+RUN echo "/agent/rinha /var/rinha/source.rinha" >> /agent/run.sh
 
 ENTRYPOINT ["/bin/bash", "/agent/run.sh"]
