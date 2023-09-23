@@ -5,15 +5,13 @@ use rinha::ast::Call;
 
 pub fn eval_call(call: Call, scope: &mut HashMap<String, Val>) -> Result<Val, Error> {
     match eval(*call.callee, scope) {
-        #[allow(unused_variables)]
-        Ok(Val::Closure { body, params, env }) => {
-            let mut new_scope = scope.clone();
-            for (param, arg) in params.into_iter().zip(call.arguments.clone()) {
-                new_scope.insert(param.text, eval(arg, scope).unwrap());
+        Ok(Val::Closure { f, env }) => {
+            let mut new_scope = env.borrow_mut().clone();
+            for (param, arg) in f.parameters.into_iter().zip(call.arguments.clone()) {
+                new_scope.insert(param.text, eval(arg, scope)?);
             }
-            let result = eval(body, &mut new_scope).unwrap();
-            Ok(result)
+            eval(*f.value, &mut new_scope)
         }
-        _ => Err(Error::new(std::io::ErrorKind::Other, "tipo inválido")),
+        _ => Err(Error::new(std::io::ErrorKind::Other, "Call: tipo inválido")),
     }
 }

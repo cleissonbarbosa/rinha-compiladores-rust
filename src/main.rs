@@ -31,20 +31,13 @@ fn main() {
             let term = program.expression;
             let mut scope = HashMap::new();
             match eval::core::eval(term, &mut scope) {
-                Ok(val) => {
+                Ok(_) => {
                     let time_end = Local::now() - time_init;
                     println!(
                         "\n\n\nExecution Time: {}s : {}ms",
                         time_end.num_seconds(),
                         time_end.num_milliseconds() - (time_end.num_seconds() * 1000)
                     );
-
-                    if format!("{:?}", val) == "Void" {
-                        print!("");
-                        return;
-                    }
-
-                    println!("\n{:?}", val);
                 }
                 Err(e) => println!("{:?}", e),
             };

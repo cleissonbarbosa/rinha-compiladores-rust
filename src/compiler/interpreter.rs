@@ -1,4 +1,4 @@
-use std::{collections::HashMap, io::Error, thread};
+use std::{collections::HashMap, io::Error};
 
 use crate::eval::core::eval;
 
@@ -14,8 +14,7 @@ pub fn interpreter(source: &str) -> Result<String, Error> {
     let term = source.expression;
     let mut scope = HashMap::new();
 
-    let builder = thread::Builder::new().stack_size(128 * 1024 * 1024); // 128 MB stack size
-    match builder.spawn(move || match eval(term, &mut scope) {
+    match eval(term, &mut scope) {
         Ok(val) => {
             if format!("{:?}", val) == "Void" {
                 return Ok("".to_string());
@@ -23,9 +22,6 @@ pub fn interpreter(source: &str) -> Result<String, Error> {
 
             Ok(format!("{:?}", val))
         }
-        Err(e) => Err(Error::new(std::io::ErrorKind::Other, format!("{:?}", e))),
-    }) {
-        Ok(result) => Ok(result.join().unwrap().expect("error")),
         Err(e) => Err(Error::new(std::io::ErrorKind::Other, format!("{:?}", e))),
     }
 }

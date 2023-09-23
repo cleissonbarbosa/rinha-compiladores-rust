@@ -10,9 +10,7 @@ pub fn eval_bin(bin: Binary, scope: &mut HashMap<String, Val>) -> Result<Val, Er
             let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Int(a + b)),
-                (Ok(Val::Str(s)), Ok(Val::Int(b))) => Ok(Val::Str(format!("{s}{b}"))),
-                (Ok(Val::Int(s)), Ok(Val::Str(b))) => Ok(Val::Str(format!("{s}{b}"))),
-                (Ok(Val::Str(s)), Ok(Val::Str(b))) => Ok(Val::Str(format!("{s}{b}"))),
+                (Ok(s), Ok(b)) => Ok(Val::Str(format!("{s}{b}"))),
                 _ => Err(Error::new(std::io::ErrorKind::Other, "tipo inválido")),
             }
         }
