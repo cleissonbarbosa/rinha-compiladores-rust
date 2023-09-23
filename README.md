@@ -23,7 +23,7 @@ Simple interpreter for the "rinha de compiladores" challenge
 ### Run project
 
 ```bash
-cargo run --release --bin main ./examples/fib.rinha
+cargo run --release --bin main ./examples/source.rinha
 ```
 
 ### Run REPL
