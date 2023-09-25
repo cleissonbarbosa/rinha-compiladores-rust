@@ -151,6 +151,8 @@ pub fn eval_bin(bin: Binary, scope: &mut HashMap<String, Val>) -> Result<Val, Er
                 (Ok(Val::Bool(a)), Ok(Val::Bool(b))) => Ok(Val::Bool(a != b)),
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Bool(a != b)),
                 (Ok(Val::Str(a)), Ok(Val::Str(b))) => Ok(Val::Bool(a != b)),
+                (Ok(Val::Str(a)), Ok(Val::Int(b))) => Ok(Val::Bool(a != b.to_string())),
+                (Ok(Val::Int(a)), Ok(Val::Str(b))) => Ok(Val::Bool(a.to_string() != b)),
                 (_, _) => Err(Error::new(
                     std::io::ErrorKind::Other,
                     "Operadores inválidos",
