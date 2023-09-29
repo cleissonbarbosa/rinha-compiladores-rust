@@ -1,7 +1,7 @@
 use std::{collections::HashMap, io::Error};
 
 use super::{core::eval, val::Val};
-use rinha::ast::{Binary, BinaryOp};
+use crate::ast::{Binary, BinaryOp};
 
 pub fn eval_bin(bin: Binary, scope: &mut HashMap<String, Val>) -> Result<Val, Error> {
     match bin.op {

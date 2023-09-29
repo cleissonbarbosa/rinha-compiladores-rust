@@ -1,4 +1,3 @@
-use rinha::ast::{Let, Print, Term};
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::{collections::HashMap, io::Error};
@@ -6,15 +5,16 @@ use std::{collections::HashMap, io::Error};
 use super::eval_binary::eval_bin;
 use super::eval_call::eval_call;
 use super::val::{Tuple, Val};
+use crate::ast::{Let, Print, Term};
 
 /// Evaluate a term and return a value
 /// ```rust
 /// use rinha_compiladores::core::eval;
-/// use rinha::ast::Term;
+/// use rinha_compiladores::ast;
 /// use std::collections::HashMap;
 ///
 /// let result = eval(
-///     Term::Int(rinha::ast::Int {
+///     ast::Term::Int(ast::Int {
 ///         value: 1,
 ///         ..Default::default()
 ///     }),

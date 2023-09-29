@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use std::fmt::{Display, Formatter, Result};
 use std::rc::Rc;
 
-use rinha::ast::Function;
+use crate::ast::Function;
 
 #[derive(Debug, Clone)]
 pub struct Tuple {

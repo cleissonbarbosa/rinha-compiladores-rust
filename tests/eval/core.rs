@@ -1,14 +1,15 @@
 use std::collections::HashMap;
 
 use rinha_compiladores::core::eval;
+use rinha_compiladores::ast::Term;
 
 #[test]
 fn eval_test() {
     let result = eval(
-        rinha::ast::Term::Int(rinha::ast::Int {
+        Term::from(rinha::ast::Term::Int(rinha::ast::Int {
             value: 1,
             ..Default::default()
-        }),
+        })),
         &mut HashMap::new(),
     )
     .expect("error on evaluation");
@@ -19,10 +20,10 @@ fn eval_test() {
     );
 
     let result = eval(
-        rinha::ast::Term::Str(rinha::ast::Str {
+        Term::from(rinha::ast::Term::Str(rinha::ast::Str {
             value: "hello".to_string(),
             ..Default::default()
-        }),
+        })),
         &mut HashMap::new(),
     )
     .expect("error on evaluation");

@@ -1,7 +1,7 @@
 use std::{collections::HashMap, io::Error};
 
 use super::{core::eval, val::Val};
-use rinha::ast::Call;
+use crate::ast::Call;
 
 pub fn eval_call(call: Call, scope: &mut HashMap<String, Val>) -> Result<Val, Error> {
     match eval(*call.callee, scope) {

@@ -5,12 +5,13 @@ edition = "2021"
 
 [dependencies]
 serde = { version = "1.0.188", features = ["derive"] }
-serde_json = "1.0.106"
+serde_json = { version = "1.0.107", features = ["unbounded_depth"] }
 rustyline = "12.0.0"
 rinha = "0.0.6"
 clap_builder = "4.4.2"
 miette = "5.10.0"
 chrono = "0.4.19"
+serde_stacker = "0.1.10"
 
 [[bin]]
 name = "main"

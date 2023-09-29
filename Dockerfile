@@ -18,6 +18,6 @@ WORKDIR /agent
 COPY --from=build /agent/target/release/main /agent/rinha
 
 RUN echo "#!/bin/sh" >> /agent/run.sh
-RUN echo "/agent/rinha /var/rinha/source.rinha" >> /agent/run.sh
+RUN echo "/agent/rinha /var/rinha/source.rinha.json" >> /agent/run.sh
 
 ENTRYPOINT ["/bin/bash", "/agent/run.sh"]

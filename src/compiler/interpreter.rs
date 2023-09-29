@@ -1,6 +1,6 @@
 use std::{collections::HashMap, io::Error};
 
-use crate::eval::core::eval;
+use crate::{ast::Term, eval::core::eval};
 
 #[allow(dead_code)]
 /// Interpreter function
@@ -13,6 +13,8 @@ pub fn interpreter(source: &str) -> Result<String, Error> {
     let source = rinha::parser::parse_or_report("Terminal", source).expect("parse error");
     let term = source.expression;
     let mut scope = HashMap::new();
+
+    let term = Term::from(term);
 
     match eval(term, &mut scope) {
         Ok(val) => {
