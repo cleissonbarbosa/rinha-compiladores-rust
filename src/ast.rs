@@ -208,7 +208,7 @@ impl Element for Bool {
 }
 
 /// Int is a integer value like `0`, `1`, `2`, etc.
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, Default)]
 pub struct Int {
     /// The value of the integer.
     pub value: i32,
@@ -220,15 +220,6 @@ pub struct Int {
 impl Element for Int {
     fn location(&self) -> &Location {
         &self.location
-    }
-}
-
-impl Default for Int {
-    fn default() -> Self {
-        Self {
-            value: 0,
-            location: Location::default(),
-        }
     }
 }
 
@@ -434,7 +425,7 @@ impl From<rinha::ast::Tuple> for Tuple {
         Self {
             first: Box::new(first),
             second: Box::new(second),
-            location: location,
+            location,
         }
     }
 }
