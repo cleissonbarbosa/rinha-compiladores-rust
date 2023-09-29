@@ -6,7 +6,7 @@ use serde::Deserialize;
 
 use std::collections::HashMap;
 use std::env::args;
-use std::{fs, thread};
+use std::fs;
 
 mod ast;
 mod compiler;
