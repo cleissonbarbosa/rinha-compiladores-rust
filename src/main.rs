@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 use ast::File;
 use chrono::Local;
 use serde::Deserialize;
@@ -38,24 +40,15 @@ fn main() {
         None => panic!("No file specified"),
     };
 
-    let builder = thread::Builder::new().stack_size(128 * 1024 * 1024); // 128 MB stack size
-    builder
-        .spawn(move || {
-            let term = program.expression;
-            let mut scope = HashMap::new();
-            match eval::core::eval(term, &mut scope) {
-                Ok(_) => {
-                    let time_end = Local::now() - time_init;
-                    println!(
-                        "\n\n\nExecution Time: {}s:{}ms",
-                        time_end.num_seconds(),
-                        time_end.num_milliseconds() - (time_end.num_seconds() * 1000)
-                    );
-                }
-                Err(e) => println!("{:?}", e),
-            };
-        })
-        .unwrap()
-        .join()
-        .unwrap();
+    match eval::core::eval(program.expression, &mut HashMap::new()) {
+        Ok(_) => {
+            let time_end = Local::now() - time_init;
+            println!(
+                "\n\nExecution Time: {}s:{}ms",
+                time_end.num_seconds(),
+                time_end.num_milliseconds() - (time_end.num_seconds() * 1000)
+            );
+        }
+        Err(e) => println!("{:?}", e),
+    };
 }
