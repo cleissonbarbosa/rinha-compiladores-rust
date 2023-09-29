@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use rinha_compiladores::core::eval;
 use rinha_compiladores::ast::Term;
+use rinha_compiladores::core::eval;
 
 #[test]
 fn eval_test() {
