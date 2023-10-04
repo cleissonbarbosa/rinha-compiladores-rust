@@ -16,9 +16,9 @@ pub fn interpreter(source: &str) -> Result<String, Error> {
 
     let term = Term::from(term);
 
-    match eval(term, &mut scope) {
+    match eval(term.clone(), &mut scope) {
         Ok(val) => {
-            if format!("{:?}", val) == "Void" {
+            if format!("{:?}", term).starts_with("Print(Print") {
                 return Ok("".to_string());
             }
 

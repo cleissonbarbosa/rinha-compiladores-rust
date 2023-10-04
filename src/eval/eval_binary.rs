@@ -4,135 +4,113 @@ use super::{core::eval, val::Val};
 use crate::ast::{Binary, BinaryOp};
 
 pub fn eval_bin(bin: Binary, scope: &mut HashMap<String, Val>) -> Result<Val, Error> {
+    let lhs = eval(*bin.lhs, scope);
+    let rhs = eval(*bin.rhs, scope);
     match bin.op {
         BinaryOp::Add => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Int(a + b)),
                 (Ok(s), Ok(b)) => Ok(Val::Str(format!("{s}{b}"))),
-                _ => Err(Error::new(std::io::ErrorKind::Other, "tipo inválido")),
+                a => Err(Error::new(std::io::ErrorKind::Other, format!("tipo inválido {:?}", a))),
             }
         }
         BinaryOp::Sub => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Int(a - b)),
                 _ => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }
         BinaryOp::Lt => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Bool(a < b)),
                 (Ok(Val::Str(a)), Ok(Val::Str(b))) => Ok(Val::Bool(a < b)),
                 _ => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }
         BinaryOp::Div => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Int(a / b)),
                 _ => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }
         BinaryOp::Mul => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Int(a * b)),
                 _ => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }
         BinaryOp::And => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Bool(a)), Ok(Val::Bool(b))) => Ok(Val::Bool(a && b)),
                 _ => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }
         BinaryOp::Or => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Bool(a)), Ok(Val::Bool(b))) => Ok(Val::Bool(a || b)),
                 _ => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }
         BinaryOp::Eq => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Bool(a)), Ok(Val::Bool(b))) => Ok(Val::Bool(a == b)),
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Bool(a == b)),
                 (Ok(Val::Str(a)), Ok(Val::Str(b))) => Ok(Val::Bool(a == b)),
                 _ => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }
         BinaryOp::Gt => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Bool(a > b)),
                 (Ok(Val::Str(a)), Ok(Val::Str(b))) => Ok(Val::Bool(a > b)),
                 _ => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }
         BinaryOp::Gte => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Bool(a >= b)),
                 (Ok(Val::Str(a)), Ok(Val::Str(b))) => Ok(Val::Bool(a >= b)),
                 (_, _) => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }
         BinaryOp::Lte => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Bool(a <= b)),
                 (Ok(Val::Str(a)), Ok(Val::Str(b))) => Ok(Val::Bool(a <= b)),
                 (_, _) => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }
         BinaryOp::Rem => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (_, Ok(Val::Int(0))) => {
                     Err(Error::new(std::io::ErrorKind::Other, "Divisão por zero"))
@@ -140,13 +118,11 @@ pub fn eval_bin(bin: Binary, scope: &mut HashMap<String, Val>) -> Result<Val, Er
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Int(a % b)),
                 (_, _) => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }
         BinaryOp::Neq => {
-            let lhs = eval(*bin.lhs, scope);
-            let rhs = eval(*bin.rhs, scope);
             match (lhs, rhs) {
                 (Ok(Val::Bool(a)), Ok(Val::Bool(b))) => Ok(Val::Bool(a != b)),
                 (Ok(Val::Int(a)), Ok(Val::Int(b))) => Ok(Val::Bool(a != b)),
@@ -155,7 +131,7 @@ pub fn eval_bin(bin: Binary, scope: &mut HashMap<String, Val>) -> Result<Val, Er
                 (Ok(Val::Int(a)), Ok(Val::Str(b))) => Ok(Val::Bool(a.to_string() != b)),
                 (_, _) => Err(Error::new(
                     std::io::ErrorKind::Other,
-                    "Operadores inválidos",
+                    "Invalid operators",
                 )),
             }
         }

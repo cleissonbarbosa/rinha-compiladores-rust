@@ -30,7 +30,7 @@ fn main() {
                     let mut dsz = serde_json::Deserializer::from_str(&file);
                     dsz.disable_recursion_limit();
                     let dsz = serde_stacker::Deserializer::new(&mut dsz);
-                    File::deserialize(dsz).expect("Programa inválido")
+                    File::deserialize(dsz).expect("parse error")
                 }
                 false => File::from(
                     rinha::parser::parse_or_report(&f, strip_bom(&file)).expect("parse error"),

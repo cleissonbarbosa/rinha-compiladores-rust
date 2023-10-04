@@ -25,10 +25,7 @@ use crate::ast::{Let, Print, Term};
 ///
 pub fn eval(term: Term, scope: &mut HashMap<String, Val>) -> Result<Val, Error> {
     match term {
-        Term::Int(ref number) => {
-            let result = Val::Int(number.value);
-            Ok(result)
-        }
+        Term::Int(number) => Ok(Val::Int(number.value)),
         Term::Str(str) => Ok(Val::Str(str.value)),
         Term::Bool(bool) => Ok(Val::Bool(bool.value)),
         Term::Print(print) => eval_print(print, scope),
@@ -36,14 +33,14 @@ pub fn eval(term: Term, scope: &mut HashMap<String, Val>) -> Result<Val, Error> 
         Term::If(i) => match eval(*i.condition, scope) {
             Ok(Val::Bool(true)) => eval(*i.then, scope),
             Ok(Val::Bool(false)) => eval(*i.otherwise, scope),
-            _ => Err(Error::new(std::io::ErrorKind::Other, "tipo inválido")),
+            _ => Err(Error::new(std::io::ErrorKind::Other, "invalid type")),
         },
         Term::Let(l) => eval_let(l, scope),
         Term::Var(v) => match scope.get(&v.text) {
             Some(val) => Ok(val.clone()),
             None => Err(Error::new(
                 std::io::ErrorKind::Other,
-                "variável não definida",
+                format!("variável não definida {:?}", v),
             )),
         },
         Term::Function(f) => {
@@ -55,12 +52,12 @@ pub fn eval(term: Term, scope: &mut HashMap<String, Val>) -> Result<Val, Error> 
         Term::First(f) => match eval(*f.value, scope) {
             Ok(Val::Str(s)) => Ok(Val::Str(s.chars().next().unwrap().to_string())),
             Ok(Val::Tuple(t)) => Ok(*t.f),
-            _ => Err(Error::new(std::io::ErrorKind::Other, "tipo inválido")),
+            _ => Err(Error::new(std::io::ErrorKind::Other, "invalid type")),
         },
         Term::Second(s) => match eval(*s.value, scope) {
             Ok(Val::Str(s)) => Ok(Val::Str(s.chars().nth(1).unwrap().to_string())),
             Ok(Val::Tuple(t)) => Ok(*t.s),
-            _ => Err(Error::new(std::io::ErrorKind::Other, "tipo inválido")),
+            _ => Err(Error::new(std::io::ErrorKind::Other, "invalid type")),
         },
         Term::Tuple(t) => {
             let first = eval(*t.first, scope).unwrap();
@@ -116,7 +113,7 @@ fn eval_print(print: Print, scope: &mut HashMap<String, Val>) -> Result<Val, Err
         }
         _ => Err(Error::new(
             std::io::ErrorKind::Other,
-            format!("Print: tipo inválido {:?}", val),
+            format!("Print: invalid type {:?}", val),
         )),
     }
 }
