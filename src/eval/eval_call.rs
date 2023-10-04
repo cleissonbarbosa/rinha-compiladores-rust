@@ -12,6 +12,9 @@ pub fn eval_call(call: Call, scope: &mut HashMap<String, Val>) -> Result<Val, Er
             }
             eval(*f.value, &mut new_scope)
         }
-        a => Err(Error::new(std::io::ErrorKind::Other, format!("Call: invalid type {:?}", a))),
+        a => Err(Error::new(
+            std::io::ErrorKind::Other,
+            format!("Call: invalid type {:?}", a),
+        )),
     }
 }
